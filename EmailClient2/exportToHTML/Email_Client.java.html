@@ -1,0 +1,179 @@
+<html>
+<head>
+<title>Email_Client.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #5c6370; font-style: italic;}
+.s1 { color: #bbbbbb;}
+.s2 { color: #d55fde; font-style: italic;}
+.s3 { color: #89ca78;}
+.s4 { color: #2bbac5;}
+.s5 { color: #d19a66;}
+.ln { color: #495162; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#282c34">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Email_Client.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">// your index number - 200682T</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">//import libraries</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a>
+<a name="l6"><span class="ln">6    </span></a><span class="s2">import </span><span class="s1">EmailSender.Email;</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s2">import </span><span class="s1">EmailSender.JavaMailUtil;</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s2">import </span><span class="s1">EmailSender.NormalEmail;</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s2">import </span><span class="s1">RecipientCollection.Collection;</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s2">import </span><span class="s1">RecipientCollection.FileToAppLoader;</span>
+<a name="l11"><span class="ln">11   </span></a>
+<a name="l12"><span class="ln">12   </span></a><span class="s2">import </span><span class="s1">java.io.IOException;</span>
+<a name="l13"><span class="ln">13   </span></a><span class="s2">import </span><span class="s1">java.nio.channels.ScatteringByteChannel;</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s2">import </span><span class="s1">java.util.Map;</span>
+<a name="l15"><span class="ln">15   </span></a><span class="s2">import </span><span class="s1">java.util.Scanner;</span>
+<a name="l16"><span class="ln">16   </span></a>
+<a name="l17"><span class="ln">17   </span></a><span class="s2">public class </span><span class="s1">Email_Client {</span>
+<a name="l18"><span class="ln">18   </span></a>
+<a name="l19"><span class="ln">19   </span></a>
+<a name="l20"><span class="ln">20   </span></a>    <span class="s2">public static void </span><span class="s1">main(String[] args) </span><span class="s2">throws </span><span class="s1">InvalidInputException{</span>
+<a name="l21"><span class="ln">21   </span></a>
+<a name="l22"><span class="ln">22   </span></a>        <span class="s0">//use thread to load file data into application without interrupting the main process</span>
+<a name="l23"><span class="ln">23   </span></a>        <span class="s1">FileToAppLoader fileToAppLoader = </span><span class="s2">new </span><span class="s1">FileToAppLoader();</span>
+<a name="l24"><span class="ln">24   </span></a>        <span class="s1">fileToAppLoader.FileToAppLoaderThread();;</span>
+<a name="l25"><span class="ln">25   </span></a><span class="s0">//        Thread FileloaderThread = new Thread(new Runnable() {</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s0">//            @Override</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s0">//            public void run() {</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s0">//                fileToAppLoader.FileToAppLoaderThread();</span>
+<a name="l29"><span class="ln">29   </span></a><span class="s0">//            }</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">//        });</span>
+<a name="l31"><span class="ln">31   </span></a>
+<a name="l32"><span class="ln">32   </span></a>        <span class="s1">Thread AutoWishSendThread = </span><span class="s2">new </span><span class="s1">Thread(</span><span class="s2">new </span><span class="s1">Runnable() {</span>
+<a name="l33"><span class="ln">33   </span></a>            <span class="s1">@Override</span>
+<a name="l34"><span class="ln">34   </span></a>            <span class="s2">public void </span><span class="s1">run() {</span>
+<a name="l35"><span class="ln">35   </span></a>                <span class="s2">try </span><span class="s1">{</span>
+<a name="l36"><span class="ln">36   </span></a>                    <span class="s1">BirthdayMailThread.AutoWishSender();</span>
+<a name="l37"><span class="ln">37   </span></a>                <span class="s1">} </span><span class="s2">catch </span><span class="s1">(Exception e) {</span>
+<a name="l38"><span class="ln">38   </span></a>                    <span class="s1">e.printStackTrace();</span>
+<a name="l39"><span class="ln">39   </span></a>                <span class="s1">}</span>
+<a name="l40"><span class="ln">40   </span></a>            <span class="s1">}</span>
+<a name="l41"><span class="ln">41   </span></a>        <span class="s1">});</span>
+<a name="l42"><span class="ln">42   </span></a>
+<a name="l43"><span class="ln">43   </span></a>
+<a name="l44"><span class="ln">44   </span></a><span class="s0">//        FileloaderThread.start();</span>
+<a name="l45"><span class="ln">45   </span></a><span class="s0">//        FileloaderThread.join();</span>
+<a name="l46"><span class="ln">46   </span></a>
+<a name="l47"><span class="ln">47   </span></a>        <span class="s1">AutoWishSendThread.start();</span>
+<a name="l48"><span class="ln">48   </span></a><span class="s0">//        try {</span>
+<a name="l49"><span class="ln">49   </span></a><span class="s0">//            AutoWishSendThread.join();</span>
+<a name="l50"><span class="ln">50   </span></a><span class="s0">//        } catch (InterruptedException e) {</span>
+<a name="l51"><span class="ln">51   </span></a><span class="s0">//            e.printStackTrace();</span>
+<a name="l52"><span class="ln">52   </span></a><span class="s0">//        }</span>
+<a name="l53"><span class="ln">53   </span></a>
+<a name="l54"><span class="ln">54   </span></a>        <span class="s1">SerializableHashMap serializableHashMap = </span><span class="s2">new </span><span class="s1">SerializableHashMap();</span>
+<a name="l55"><span class="ln">55   </span></a>
+<a name="l56"><span class="ln">56   </span></a>
+<a name="l57"><span class="ln">57   </span></a>        <span class="s1">Scanner scanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in);</span>
+<a name="l58"><span class="ln">58   </span></a>        <span class="s1">System.out.println(</span><span class="s3">&quot;Enter option type: </span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l59"><span class="ln">59   </span></a>                <span class="s1">+ </span><span class="s3">&quot;1 - Adding a new recipient</span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l60"><span class="ln">60   </span></a>                <span class="s1">+ </span><span class="s3">&quot;2 - Sending an email</span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l61"><span class="ln">61   </span></a>                <span class="s1">+ </span><span class="s3">&quot;3 - Printing out all the recipients who have birthdays</span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l62"><span class="ln">62   </span></a>                <span class="s1">+ </span><span class="s3">&quot;4 - Printing out details of all the emails sent</span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l63"><span class="ln">63   </span></a>                <span class="s1">+ </span><span class="s3">&quot;5 - Printing out the number of recipient objects in the application&quot;</span><span class="s1">);</span>
+<a name="l64"><span class="ln">64   </span></a>
+<a name="l65"><span class="ln">65   </span></a>        <span class="s2">int </span><span class="s1">option = scanner.nextInt();</span>
+<a name="l66"><span class="ln">66   </span></a>
+<a name="l67"><span class="ln">67   </span></a>
+<a name="l68"><span class="ln">68   </span></a>            <span class="s2">switch</span><span class="s1">(option) {</span>
+<a name="l69"><span class="ln">69   </span></a>                <span class="s2">case </span><span class="s5">1</span><span class="s1">:</span>
+<a name="l70"><span class="ln">70   </span></a>                    <span class="s0">// input format - Official: nimal,nimal@gmail.com,ceo</span>
+<a name="l71"><span class="ln">71   </span></a>                    <span class="s0">// Use a single input to get all the details of a recipient</span>
+<a name="l72"><span class="ln">72   </span></a>                    <span class="s0">// code to add a new recipient</span>
+<a name="l73"><span class="ln">73   </span></a>                    <span class="s0">// store details in clientList.txt file</span>
+<a name="l74"><span class="ln">74   </span></a>                    <span class="s0">// Hint: use methods for reading and writing files</span>
+<a name="l75"><span class="ln">75   </span></a>                    <span class="s1">Scanner scanner1 = </span><span class="s2">new </span><span class="s1">Scanner(System.in);</span>
+<a name="l76"><span class="ln">76   </span></a>                    <span class="s1">System.out.println(</span><span class="s3">&quot;input the details - format:Official: nimal,nimal@gmail.com,ceo&quot;</span><span class="s1">);</span>
+<a name="l77"><span class="ln">77   </span></a>                    <span class="s1">String input = scanner1.nextLine();</span>
+<a name="l78"><span class="ln">78   </span></a>                    <span class="s2">if </span><span class="s1">(InvalidInputCatcher.InvalidInputCatcher(input)) {</span>
+<a name="l79"><span class="ln">79   </span></a>                        <span class="s2">try </span><span class="s1">{</span>
+<a name="l80"><span class="ln">80   </span></a>                            <span class="s1">AddingRecipient Recipient = </span><span class="s2">new </span><span class="s1">AddingRecipient(input);</span>
+<a name="l81"><span class="ln">81   </span></a>                        <span class="s1">} </span><span class="s2">catch </span><span class="s1">(IOException e) {</span>
+<a name="l82"><span class="ln">82   </span></a>                            <span class="s1">e.printStackTrace();</span>
+<a name="l83"><span class="ln">83   </span></a>                        <span class="s1">}</span>
+<a name="l84"><span class="ln">84   </span></a>                    <span class="s1">}</span>
+<a name="l85"><span class="ln">85   </span></a>
+<a name="l86"><span class="ln">86   </span></a>                    <span class="s2">break</span><span class="s1">;</span>
+<a name="l87"><span class="ln">87   </span></a>                <span class="s2">case </span><span class="s5">2</span><span class="s1">:</span>
+<a name="l88"><span class="ln">88   </span></a>                    <span class="s0">// input format - email, subject, content</span>
+<a name="l89"><span class="ln">89   </span></a>                    <span class="s0">// code to send an email</span>
+<a name="l90"><span class="ln">90   </span></a>                    <span class="s1">Scanner scanner2 = </span><span class="s2">new </span><span class="s1">Scanner(System.in);</span>
+<a name="l91"><span class="ln">91   </span></a>                    <span class="s1">String email = scanner2.next();</span>
+<a name="l92"><span class="ln">92   </span></a>                    <span class="s1">String subject = scanner2.next();</span>
+<a name="l93"><span class="ln">93   </span></a>                    <span class="s1">String content = scanner2.nextLine().trim();</span>
+<a name="l94"><span class="ln">94   </span></a>
+<a name="l95"><span class="ln">95   </span></a>                    <span class="s1">Email email1 = </span><span class="s2">new </span><span class="s1">NormalEmail(email, subject, content);</span>
+<a name="l96"><span class="ln">96   </span></a>                    <span class="s2">try </span><span class="s1">{</span>
+<a name="l97"><span class="ln">97   </span></a>                        <span class="s1">System.out.println(</span><span class="s3">&quot;Preparing to send email...&quot;</span><span class="s1">);</span>
+<a name="l98"><span class="ln">98   </span></a>                        <span class="s1">JavaMailUtil.sendMail(email1.getRecipient(), email1.getSubject(), email1.getContent());</span>
+<a name="l99"><span class="ln">99   </span></a>                        <span class="s1">System.out.println(</span><span class="s3">&quot;Message send successfully&quot;</span><span class="s1">);</span>
+<a name="l100"><span class="ln">100  </span></a>                    <span class="s1">} </span><span class="s2">catch </span><span class="s1">(Exception e) {</span>
+<a name="l101"><span class="ln">101  </span></a>                        <span class="s1">e.printStackTrace();</span>
+<a name="l102"><span class="ln">102  </span></a>                    <span class="s1">}</span>
+<a name="l103"><span class="ln">103  </span></a>                    <span class="s0">//                Email email1 = MailSender.MainChooser(&quot;NormalEmail&quot;);</span>
+<a name="l104"><span class="ln">104  </span></a>                    <span class="s0">//                email1.sendEmail(email,&quot;NormalEmail&quot;,subject,content);</span>
+<a name="l105"><span class="ln">105  </span></a>                    <span class="s2">break</span><span class="s1">;</span>
+<a name="l106"><span class="ln">106  </span></a>                <span class="s2">case </span><span class="s5">3</span><span class="s1">:</span>
+<a name="l107"><span class="ln">107  </span></a>                    <span class="s0">// input format - yyyy/MM/dd (ex: 2018/09/17)</span>
+<a name="l108"><span class="ln">108  </span></a>                    <span class="s0">// code to print recipients who have birthdays on the given date</span>
+<a name="l109"><span class="ln">109  </span></a>                    <span class="s1">Scanner scanner3 = </span><span class="s2">new </span><span class="s1">Scanner(System.in);</span>
+<a name="l110"><span class="ln">110  </span></a>                    <span class="s1">String date = scanner3.nextLine().trim();</span>
+<a name="l111"><span class="ln">111  </span></a>                    <span class="s1">BirthdayCheck.setDate(date);</span>
+<a name="l112"><span class="ln">112  </span></a>                    <span class="s1">BirthdayCheck.check();</span>
+<a name="l113"><span class="ln">113  </span></a>                    <span class="s0">//iterator pattern</span>
+<a name="l114"><span class="ln">114  </span></a>                    <span class="s2">break</span><span class="s1">;</span>
+<a name="l115"><span class="ln">115  </span></a>                <span class="s2">case </span><span class="s5">4</span><span class="s1">:</span>
+<a name="l116"><span class="ln">116  </span></a>                    <span class="s0">// input format - yyyy/MM/dd (ex: 2018/09/17)</span>
+<a name="l117"><span class="ln">117  </span></a>                    <span class="s0">// code to print the details of all the emails sent on the input date</span>
+<a name="l118"><span class="ln">118  </span></a>                    <span class="s1">Scanner scanner4 = </span><span class="s2">new </span><span class="s1">Scanner(System.in);</span>
+<a name="l119"><span class="ln">119  </span></a>                    <span class="s1">String date1 = scanner4.nextLine().trim();</span>
+<a name="l120"><span class="ln">120  </span></a>
+<a name="l121"><span class="ln">121  </span></a>                    <span class="s0">//printing email after the App start</span>
+<a name="l122"><span class="ln">122  </span></a>                    <span class="s2">for </span><span class="s1">(Map.Entry&lt;String, String&gt; entry : JavaMailUtil.getEmail().entrySet()) {</span>
+<a name="l123"><span class="ln">123  </span></a>                        <span class="s2">if </span><span class="s1">(entry.getKey().equals(date1)) {</span>
+<a name="l124"><span class="ln">124  </span></a>                            <span class="s1">System.out.println(</span><span class="s3">&quot;send a email to &quot; </span><span class="s1">+ entry.getValue());</span>
+<a name="l125"><span class="ln">125  </span></a>                        <span class="s1">}</span>
+<a name="l126"><span class="ln">126  </span></a>                    <span class="s1">}</span>
+<a name="l127"><span class="ln">127  </span></a>
+<a name="l128"><span class="ln">128  </span></a>
+<a name="l129"><span class="ln">129  </span></a>                    <span class="s0">//printing past store email</span>
+<a name="l130"><span class="ln">130  </span></a>                    <span class="s2">try </span><span class="s1">{</span>
+<a name="l131"><span class="ln">131  </span></a>                        <span class="s2">for </span><span class="s1">(Map.Entry&lt;String, String&gt; entry : serializableHashMap.Deserialization().entrySet()) {</span>
+<a name="l132"><span class="ln">132  </span></a>                            <span class="s2">if </span><span class="s1">(entry.getKey().equals(date1)) {</span>
+<a name="l133"><span class="ln">133  </span></a>                                <span class="s1">System.out.println(</span><span class="s3">&quot;send a email to &quot; </span><span class="s1">+ entry.getValue());</span>
+<a name="l134"><span class="ln">134  </span></a>                            <span class="s1">}</span>
+<a name="l135"><span class="ln">135  </span></a>                        <span class="s1">}</span>
+<a name="l136"><span class="ln">136  </span></a>                    <span class="s1">}</span><span class="s2">catch </span><span class="s1">(NullPointerException e){</span><span class="s2">return</span><span class="s1">;}</span>
+<a name="l137"><span class="ln">137  </span></a>
+<a name="l138"><span class="ln">138  </span></a>                    <span class="s0">//printing emails</span>
+<a name="l139"><span class="ln">139  </span></a>                    <span class="s2">break</span><span class="s1">;</span>
+<a name="l140"><span class="ln">140  </span></a>                <span class="s2">case </span><span class="s5">5</span><span class="s1">:</span>
+<a name="l141"><span class="ln">141  </span></a>                    <span class="s0">// code to print the number of recipient objects in the application</span>
+<a name="l142"><span class="ln">142  </span></a>                    <span class="s2">int </span><span class="s1">count = Collection.getPersonalRecipientsList().size() + Collection.getCloseOfficeFriendsList().size() + Collection.getOfficialRecipientsList().size();</span>
+<a name="l143"><span class="ln">143  </span></a>                    <span class="s1">System.out.println(</span><span class="s3">&quot;the number of recipients is &quot; </span><span class="s1">+ count);</span>
+<a name="l144"><span class="ln">144  </span></a>                    <span class="s0">//iterator pattern</span>
+<a name="l145"><span class="ln">145  </span></a>                    <span class="s2">break</span><span class="s1">;</span>
+<a name="l146"><span class="ln">146  </span></a>
+<a name="l147"><span class="ln">147  </span></a>            <span class="s1">}</span>
+<a name="l148"><span class="ln">148  </span></a>
+<a name="l149"><span class="ln">149  </span></a>        <span class="s1">serializableHashMap.Serialization();</span>
+<a name="l150"><span class="ln">150  </span></a>        <span class="s0">// start email client</span>
+<a name="l151"><span class="ln">151  </span></a>        <span class="s0">// code to create objects for each recipient in clientList.txt</span>
+<a name="l152"><span class="ln">152  </span></a>        <span class="s0">// use necessary variables, methods and classes</span>
+<a name="l153"><span class="ln">153  </span></a>
+<a name="l154"><span class="ln">154  </span></a>    <span class="s1">}</span>
+<a name="l155"><span class="ln">155  </span></a><span class="s1">}</span>
+<a name="l156"><span class="ln">156  </span></a>
+<a name="l157"><span class="ln">157  </span></a><span class="s0">// create more classes needed for the implementation (remove the  public access modifier from classes when you submit your code)</span></pre>
+</body>
+</html>
