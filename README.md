@@ -1,10 +1,15 @@
 # Command line SMTP Email Client
 
 This is a multithreaded email client that gives the basic functionalities of
+
 •	Adding a new recipient through command line 
+
 •	Sending emails using Javax.mail library and SMTP protocols
+
 •	Print all recipient who have birthday on given particular date (date input through the command line)
+
 •	Printing all the email on particular date with the time and subject 
+
 •	Printing all the number of recipient maintain in the system
 
 This simple application maintain a client list name ClientList.txt and load recipient data from that text file at the beginning of the program. After completion, 
