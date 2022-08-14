@@ -12,3 +12,5 @@ This simple application maintain a client list name ClientList.txt and load reci
 it’s update the ClientList.txt. I send birthday emails automatically using a separate thread to avoid interfering with the application's main process. Before closing
 the application, the email object is serialized and stored in the SerializedFile.ser for further usage. I used some design patterns to deduce the coupling and increase
 the cohesion as well. Additionally, take care of a few custom exceptions that users frequently supply while entering data into the program.
+
+![src](https://user-images.githubusercontent.com/75856174/184536004-28faae9d-fd56-405e-a511-ec79d4867c54.png)
